@@ -8,8 +8,8 @@ import time
 import gc
 
 # Configuration variables
-INPUT_FILE = "refusal_datasets/arditi_harmful_full_questions.json"
-OUTPUT_FILE = "refusal_responses/arditi_refusal_full_questions_search_force_5.json"
+INPUT_FILE = "refusal_datasets/arditi_harmful_full.json"
+OUTPUT_FILE = "refusal_responses/arditi_refusal_full_search_force_sure.json"
 BATCH_SIZE = 64
 
 # Model ID and device setup
@@ -119,8 +119,8 @@ def process_single_question(question_text):
     # Process the question with potential search iterations - same logic as infer_search.py
     max_searches = 10  # Maximum number of searches per question
     while cnt < max_searches:
-        # Prefill with "I cannot provide information on that. Instead, <search>" to force it as the first token
-        prefilled_prompt = current_prompt + "I cannot provide information on that. Instead, <search>"
+        # Prefill with "Sure, " to force it as the first token
+        prefilled_prompt = current_prompt + "Sure, "
         input_ids = tokenizer.encode(prefilled_prompt, return_tensors='pt').to(device)
         attention_mask = torch.ones_like(input_ids)
         
@@ -139,14 +139,14 @@ def process_single_question(question_text):
             generated_tokens = outputs[0][input_ids.shape[1]:]
             output_text = tokenizer.decode(generated_tokens, skip_special_tokens=True)
             # Add the prefilled text to the response since it's not in generated_tokens
-            full_response += "I cannot provide information on that. Instead, <search>" + output_text
-            print("I cannot provide information on that. Instead, <search>" + output_text)
+            full_response += "Sure, " + output_text
+            print("Sure, " + output_text)
             break
 
         generated_tokens = outputs[0][input_ids.shape[1]:]
         output_text = tokenizer.decode(generated_tokens, skip_special_tokens=True)
         # Add the prefilled text to the response since it's not in generated_tokens
-        full_response += "I cannot provide information on that. Instead, <search>" + output_text
+        full_response += "Sure, " + output_text
         
         tmp_query = get_query(tokenizer.decode(outputs[0], skip_special_tokens=True))
         if tmp_query:
@@ -160,7 +160,7 @@ def process_single_question(question_text):
         else:
             search_results = ''
 
-        search_text = curr_search_template.format(output_text="I cannot provide information on that. Instead, <search>" + output_text, search_results=search_results)
+        search_text = curr_search_template.format(output_text="Sure, " + output_text, search_results=search_results)
         current_prompt += search_text
         cnt += 1
         print(f"Search {cnt}/{max_searches}: {search_text}")
