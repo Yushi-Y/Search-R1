@@ -8,7 +8,7 @@ import gc
 
 # Configuration variables
 INPUT_FILE = "refusal_datasets/arditi_harmful_full.json"
-OUTPUT_FILE = "refusal_responses/refusal_full_it.json"
+OUTPUT_FILE = "refusal_responses/llama_refusal_full_it.json"
 BATCH_SIZE = 32
 MODEL_ID = "meta-llama/Llama-3.2-3B-Instruct"
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

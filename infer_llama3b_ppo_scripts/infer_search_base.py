@@ -193,8 +193,8 @@ def process_questions_sequential(questions, questions_data, output_file, save_in
             print(f"Search queries: {len(search_info)}")
             print("-" * 50)
             
-            # Save progress every 10 questions
-            if (i + 1) % 10 == 0 or (i + 1) == len(questions):
+            # Save progress every 5 questions
+            if (i + 1) % 5 == 0 or (i + 1) == len(questions):
                 print(f"\nSaving progress... ({i+1}/{len(questions)} questions)")
                 with open(output_file, 'w', encoding='utf-8') as f:
                     json.dump(results, f, indent=2, ensure_ascii=False)
@@ -231,7 +231,7 @@ def main():
     
     try:
         # Process all questions sequentially with periodic saving
-        all_responses = process_questions_sequential(questions, questions_data, OUTPUT_FILE, save_interval=10)
+        all_responses = process_questions_sequential(questions, questions_data, OUTPUT_FILE, save_interval=5)
         
         print(f"Processing complete! Results saved to {OUTPUT_FILE}")
         print(f"Successfully processed {len(all_responses)} questions")
@@ -261,8 +261,8 @@ def main():
                 }
                 results.append(result_entry)
                 
-                # Save progress every 10 questions
-                if (i + 1) % 10 == 0:
+                # Save progress every 5 questions
+                if (i + 1) % 5 == 0 or (i + 1) == len(questions_data):
                     print(f"Saving progress... ({i+1}/{len(questions_data)})")
                     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
                         json.dump(results, f, indent=2, ensure_ascii=False)
