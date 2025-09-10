@@ -96,7 +96,6 @@ You must conduct reasoning inside <think> and </think> every time you get new in
 After reasoning, if you find you lack some knowledge, you can call a search engine by <search> query </search> and it will return the top searched results between <information> and </information>. \
 You can search as many times as your want. \
 If you find no further external knowledge needed, you can directly provide the answer inside <answer> and </answer>, without detailed illustrations. \
-You can also directly provide the answer inside <answer> and </answer>, without detailed illustrations. \
 Question: {question}\n"""
 
     if tokenizer.chat_template:
